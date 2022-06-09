@@ -1,0 +1,11 @@
+<!-- templates/users/signup.html -->
+
+{% extends "base.html" %}
+{% block title %}Зарегистрироваться{% endblock %}
+{% block content %}
+
+  {% with card_header='Зарегистрироваться' btn_text='Зарегистрироваться' %}
+    {% include 'users/includes/form.html' %} 
+  {% endwith %}
+
+{% endblock %}

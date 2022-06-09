@@ -1,0 +1,41 @@
+{% load user_filters %}
+{% if user.is_authenticated %}
+<div class="card my-4">
+  <h5 class="card-header">Добавить комментарий:</h5>
+  <div class="card-body">
+    <form method="post" action="{% url 'posts:add_comment' post.id %}">
+        {% csrf_token %}      
+        <div class="form-group mb-2">
+            <label for="{{ form.text.id_for_label }}">
+            {{ form.text.label }}
+                {% if form.text.field.required %}
+                <span class="required text-danger">*</span>
+                {% endif %}
+            </label>
+            {{ form.text|addclass:"form-control" }}
+            {% if form.text.help_text %}
+            <small id="{{ form.text.id_for_label }}-help" class="form-text text-muted">
+                {{ form.text.help_text|safe }}
+            </small>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+  </div>
+</div>
+{% endif %}
+ 
+{% for comment in comments %}
+<div class="media mb-4">
+    <div class="media-body">
+    <h5 class="mt-0">
+        <a href="{% url 'posts:profile' comment.author.username %}">
+        {{ comment.author.username }}
+        </a>
+    </h5>
+        <p>
+        {{ comment.text }}
+        </p>
+    </div>
+    </div>
+{% endfor %} 

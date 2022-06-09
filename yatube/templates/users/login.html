@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Войти{% endblock %}
+{% block content %}
+
+  {% with card_header='Войти на сайт' forgott_pass=True btn_text='Войти' %}
+    {% include 'users/includes/form.html' %} 
+  {% endwith %}
+
+{% endblock %} 
