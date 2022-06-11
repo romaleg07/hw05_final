@@ -8,7 +8,7 @@
   <div class="mb-5">
     <h1>Все посты пользователя {{ author.get_full_name }}</h1>
     <h3>Всего постов: {{ count }}</h3>
-    {% if user.username != author.username %}
+    {% if user != author %}
       {% if following %}
         <a
           class="btn btn-lg btn-light"
