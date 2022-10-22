@@ -10,11 +10,11 @@
   <h1>
     Последние обновления на сайте
   </h1> 
-  {% cache 20 index_page %}
+  {% cache 20 index_page with page_obj %}
   {% for post in page_obj  %}
     {% include 'posts/includes/post_list.html' %}
     {% if post.group %}   
-      <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+      <div class="group-link">Группа: <a href="{% url 'posts:group_list' post.group.slug %}">{{ post.group.title }}</a></div>
     {% endif %}
     {% if not forloop.last %}<hr>{% endif %}
   {% endfor %} 

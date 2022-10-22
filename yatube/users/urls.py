@@ -71,4 +71,14 @@ urlpatterns = [
         ),
         name='password_reset_complete'
     ),
+    # path(
+    #     'profile/<str:username>/',
+    #     views.profile_page,
+    #     name='profile'
+    # ),
+    path(
+        'update_profile/<int:user_id>/',
+        views.update_profile,
+        name='update_profile'
+    ),
 ]

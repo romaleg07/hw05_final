@@ -2,10 +2,8 @@ from django.test import TestCase
 from ..models import Post, Group
 from django.urls import reverse
 from django.test import Client, TestCase
-from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
-
-User = get_user_model()
+from users.models import User
 
 
 class PostFormsTest(TestCase):

@@ -20,9 +20,11 @@
       {% endblock %}
     </title>       
   </head>
-  <body>       
+  <body class="{% block body_class %}{% endblock %}">       
     {% include 'includes/header.html' %}     
     <main>
+      {% block wallpapper %}
+      {% endblock %}
       <div class="container py-5">
         {% block content %}
         {% endblock %}
@@ -30,6 +32,7 @@
     </main>
     {% include 'includes/footer.html' %} 
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
   </body>
 </html> 

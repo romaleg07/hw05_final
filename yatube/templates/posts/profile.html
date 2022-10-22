@@ -2,12 +2,20 @@
 {% block title %}
   Профайл пользователя {{ author.get_full_name }}
 {% endblock %} 
+{% block body_class %}profile-template{% endblock %}
 {% load thumbnail %}
 
+{% block wallpapper %}
+  <div class="wallpapper">
+    {% thumbnail author.background "1920x339" crop="center" upscale=True as im %}
+      <img class="card-img" src="{{ im.url }}">
+    {% endthumbnail %}
+  </div>
+  
+{% endblock %} 
+
 {% block content %}
-  <div class="mb-5">
-    <h1>Все посты пользователя {{ author.get_full_name }}</h1>
-    <h3>Всего постов: {{ count }}</h3>
+  <div class="btn-wrapper">
     {% if user != author %}
       {% if following %}
         <a
@@ -25,13 +33,70 @@
           </a>
       {% endif %}
     {% endif %}
+
+    {% if user == author %}
+      <a 
+        class="btn btn-lg btn-primary"
+        href="#" role="button"
+      >
+        Редактировать
+      </a>
+    {% endif %}
+  </div>
+  <div class="info">
+    <div class="avatar">
+      {% thumbnail author.avatar "300x300" crop="center" upscale=True as im %}
+        <img class="avatar-img" src="{{ im.url }}">
+      {% endthumbnail %}
+    </div>
+    <div class="right">
+      <div class="name">
+        {% if author.get_full_name %}
+          {{ author.get_full_name }}
+        {% else %}
+          {{ author.username }}
+        {% endif %}
+      </div>
+      {% if author.location %}
+        <div class="location">
+          {{ author.location }}
+        </div>
+      {% endif %}
+    </div>
+    
+  </div>
+  <div class="bio">
+    <div class="name">
+      <span class='small-text'>Имя пользователя</span>
+      {% if author.get_full_name %}
+        {{ author.get_full_name }}
+      {% else %}
+        {{ author.username }}
+      {% endif %}
+    </div>
+    {% if author.birth_date %}
+      <div class="birth_date">
+        <span class='small-text'>Возраст</span>
+        {{ age_user }}
+      </div>
+    {% endif %}
+    {% if author.bio %}
+      <div class="bio-desc">
+        <span class='small-text'>Инфомарция</span>
+        {{ author.bio }}
+      </div>
+    {% endif %}
+  </div>
+  <div class="mb-5">
+    <h1>Все посты пользователя {{ author.get_full_name }}</h1>
+    <h5>Всего постов: {{ count }}</h5>
   </div>
   
   {% for post in page_obj  %}
   {% include 'posts/includes/post_list.html' %}
   
   {% if post.group %}   
-    <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+    <div class="group-link">Группа: <a href="{% url 'posts:group_list' post.group.slug %}">{{ post.group.title }}</a></div>
   {% endif %} 
 
   {% if not forloop.last %}<hr>{% endif %}

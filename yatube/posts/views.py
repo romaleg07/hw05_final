@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from .forms import PostForm, CommentForm
 from .utils import PostsPaginator
+from datetime import date
 
 
 def index(request):
@@ -36,6 +37,17 @@ def profile(request, username):
     count = author.posts.all().count()
     page_obj = PostsPaginator(post_list, request)
     following = False
+    age_user = False
+    if author.birth_date:
+        today = date.today()
+        age = (today.year
+               - author.birth_date.year
+               - ((today.month, today.day)
+                   < (author.birth_date.month, author.birth_date.day)))
+        birth_date = author.birth_date.strftime('%d %B %Y')
+        age_user = (f'{birth_date} '
+                    f'({age} лет)')
+
     if request.user.is_authenticated:
         following = Follow.objects.filter(
             user=request.user, author=author
@@ -45,7 +57,8 @@ def profile(request, username):
         'page_obj': page_obj,
         'count': count,
         'author': author,
-        'following': following
+        'following': following,
+        'age_user': age_user
     }
     return render(request, 'posts/profile.html', context)
 
